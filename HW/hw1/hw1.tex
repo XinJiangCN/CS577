@@ -1,0 +1,84 @@
+
+\documentclass[12pt]{article}
+ 
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb}
+ 
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+ 
+\newenvironment{theorem}[2][Theorem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{lemma}[2][Lemma]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{exercise}[2][Exercise]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{question}[2][Question]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{corollary}[2][Corollary]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+ 
+\begin{document}
+ 
+% --------------------------------------------------------------
+%                         Start here
+% --------------------------------------------------------------
+ 
+\title{Homework 1}%replace X with the appropriate number
+\author{Jason Jiang\\ %replace with your name
+CS 577} %if necessary, replace with your course title
+ 
+\maketitle
+ 
+\begin{question}{1} 
+Explain for each procedure why it works or does not work. If the procedure does not work, provide an example input on which it fails; otherwise, give a correctness proof.
+\end{question}
+ 
+\begin{itemize}
+    \item Algorithm 0\\
+        \textbf{Claim:} This algorithm is correct.\\
+        \textbf{Loop invariant:} For all $n>2$ we have $F_0(n-m)=i; F_0(n-m+1)=j;F_0(n-m+2) = k$\\
+
+        \textbf{Base case:} For inputs of 0, 1, 2, the outputs are 0, 1 and 1, respectively. So this is correct. \\
+        \textbf{Induction Hypothesis:} $F_0(l)$ is correct for all values of $l<=n$, where $n,l\in \mathbb{N}$ \\
+        \textbf{Inductive Step:} \\
+            let $F_0(3l)$ is correct for all values until n, where l is the number of iterations. \\
+            So $i_l=F_0(3l), j_l=F_0(3l+1), k_l=F_0(3l+2)$ \\
+            then, for $F_0(3(l+1))$, we have:\\
+%            $F_0(l+1-m)=i_{l+1}=j_l, F_0(l+1-m+1)=j_{l+1}=k_l, F_0(l+1-m+2)=k_{l+1}$\\
+            $i_{l+1}=j_l+k_l=F(3(l+1))$ ,\\
+            $j_{l+1}=i_{l+1}+k_l=F(3(l+1)+1)$  and \\
+            $k_{l+1}=i_{l+1}+j_{l+1}=F(3(l+1)+2)$. \\
+            It holds true for the Fibonacci formula. \\
+            Also, if the actual input n is $n\,mod\,3=0$, the m will be 0 eventually and will return $i_{l}$, then n+1 will return $i_{l+1}=j_l$, which satisifies the Fibonacci formula. Likewise we could have correct answer on the situations that equals 1 and 2. \\
+            \textbf{Soundness: } for each valid input, the program will return correct value.\\
+            \textbf{Termination: } the program will terminate after m<3, and with every valid input n>0, it will definitely terminate because the m is deducted by 3 every loop. It will not cause an infinte loop.
+
+
+            
+    \item Algorithm 1\\
+        \textbf{Claim:} This algorithm is incorrect.\\
+        \textbf{Counterexample:} When n = 3, the output is 3.\\
+        However, the result should be 2.\\
+        Hence, the algorithm is not correct.
+
+    \item Algorithm 2\\
+        \textbf{Claim:} This algorithm is incorrect.\\
+        \textbf{Counterexample:} When n = 3, the output is 1.\\
+        However, the result should be 2.\\
+        Hence, the algorithm is not correct.
+    
+    \item Algorithm 3\\
+        \textbf{Claim:} This algorithm is incorrect.\\
+        \textbf{Counterexample:} When n = 3, the output is 1.\\
+        However, the result should be 2.\\
+        Hence, the algorithm is not correct.
+
+\end{itemize}
+% --------------------------------------------------------------
+%     You don't have to mess with anything below this line.
+% --------------------------------------------------------------
+ 
+\end{document}
