@@ -1,74 +1,126 @@
 
-\documentclass[12pt]{article}
- 
-\usepackage[margin=1in]{geometry} 
-\usepackage{amsmath,amsthm,amssymb}
- 
-\newcommand{\N}{\mathbb{N}}
-\newcommand{\Z}{\mathbb{Z}}
+\documentclass{article}
+    \usepackage[margin = 1in]{geometry}
+    \usepackage{amsmath}
+    \usepackage{amssymb}
+    \usepackage{algorithm}
+    \usepackage{algorithmicx}
+    \usepackage[noend]{algpseudocode}
+    \author{Jason Jiang\\ Dong Fang}
+    \title{Homework 3}
+    
+    \topmargin = -100pt
+    
+    \begin{document}
+    \maketitle
+    This algorithm consists 3 procedures. The Get\_Min\_Inv is the main function that will call the recursive function, Divide\_And\_Swap, with the initial count of 0. \\ \\
+    
+    Then after the recursion, the Divide\_And\_Swap will call Merge\_And\_Count to count the number of inversions and decide whether to swap the two child. \\
+    \\ 
+    
+    The algorithm starts on Page 2.
+    \clearpage
+    The Merge\_And\_Count firstly start iterate the L and R with two different pointers. When find an inversion, add one to the counter c. Then if more than half of the situations leads to an inversion, we simply swap the two child and change the value of c to the better one. \\
+    Then if we swapped them, return an merged array with R before L. Else, return one with L before R. 
+    \\
+    
+    
+   
 
-\usepackage{amsmath}
-\usepackage{algorithm}
-\usepackage[noend]{algpseudocode}
-
-\makeatletter
-\def\BState{\State\hskip-\ALG@thistlm}
-\makeatother
-
-
-
-
-
-\newenvironment{theorem}[2][Theorem]{\begin{trivlist}
-\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
-\newenvironment{lemma}[2][Lemma]{\begin{trivlist}
-\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
-\newenvironment{exercise}[2][Exercise]{\begin{trivlist}
-\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
-\newenvironment{problem}[2][Problem]{\begin{trivlist}
-\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
-\newenvironment{question}[2][Question]{\begin{trivlist}
-\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
-\newenvironment{corollary}[2][Corollary]{\begin{trivlist}
-\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
- 
-\begin{document}
- 
-
-\title{Homework 2}
-\author{Jason Jiang\\ 
-CS 577} 
- 
-\maketitle
- 
-\begin{question}{1}
-$$    \begin{array} { l } { \text { Algorithm } 3 \text { and Algorithm } 4 \text { contain four procedures that are supposed to compute } } \\ { F _ { n } , \text { the } n \text { -th Fibonaci number, for a non-negative integer } n . \text { Recall that Fibonacci numbers } } \\ { \text { are defined by } F _ { 0 } = 0 , F _ { 1 } = 1 , \text { and } F _ { n } = F _ { n - 1 } + F _ { n - 2 } \text { for integers } n \geq 2 }
-    \end{array}
-$$
-
-\end{question}
- 
-%\begin{itemize}
-
-
-
-%\end{itemize}
-\begin{algorithm}
-    \caption{Count Minimum Number of Inversions}\label{euclid}
+    The main recursion part of the program. The base case is n = 2 and we just need to compare the two number, keep the sequence or simply swap them if that could leads to a better situation. It is impossible to have an inversion because we can always solve that by swapping. \\
+    Then, we divide the array in two parts and call itself recursively. After reach the base case, we call the Merge function to calculate the inversions. \\
+    \\ 
+    \\
+     \begin{algorithm}
     \begin{algorithmic}[1]
-        \Procedure{merge\_and\_count}{}
-        \State i <- 1
-        \State j <- 1
-        \State k <- 1
-        \State c <- 0
+        \State \textbf{Input:} L[1..m] and R[1...m]
+        \State \textbf{Output:} Merged array of L and R, count of inversions
+        \Procedure{Merge\_And\_Count(L,R)}{}
+        \State i  $\leftarrow$ 1
+        \State j  $\leftarrow$ 1
+        \State k  $\leftarrow$ 1
+        \State c  $\leftarrow$ 0
+        \State 
         \While {$i \leq m$} 
             \While {$j \leq m$} 
-                \If {L[i] > R[j] and i < j} 
-                    \State c <- c + 13 3
-                \Endif
-            \State i 
-        
-        \EndProcedure
+                \If {L[i] $>$ R[j] and i $<$j} 
+                    \State c $\leftarrow$ c + 1
+                \EndIf
+            \State j $\leftarrow$ j + 1
+            \EndWhile
+            \State i $\leftarrow$ i + 1
+        \EndWhile
+        \If {$c > m^2/2$}
+            \State c $\leftarrow$ $m^2 - c$
+            \State i  $\leftarrow$ 1
+            \While {$i \leq m$}
+                \State Merged[k] $\leftarrow$ R[i]
+                \State k $\leftarrow$ k + 1
+                \State i $\leftarrow$ i + 1
+            \EndWhile
+            \State i  $\leftarrow$ 1
+            \While {$i \leq m$}
+                \State Merged[k] $\leftarrow$ L[i]
+                \State k $\leftarrow$ k + 1
+                \State i $\leftarrow$ i + 1
+            \EndWhile
+        \Else 
+            \State i  $\leftarrow$ 1
+            \While {$i \leq m$}
+                \State Merged[k] $\leftarrow$ L[i]
+                \State k $\leftarrow$ k + 1
+                \State i $\leftarrow$ i + 1
+            \EndWhile
+            \State i  $\leftarrow$ 1
+            \While {$i \leq m$}
+                \State Merged[k] $\leftarrow$ R[i]
+                \State k $\leftarrow$ k + 1
+                \State i $\leftarrow$ i + 1
+            \EndWhile
+        \EndIf
+        \State \textbf{return} {Merged, c}
+    \EndProcedure
+
+    
+
+   
     \end{algorithmic}
 \end{algorithm}
-\end{document}
+\begin{algorithm}
+      \begin{algorithmic}[1]
+      
+    \State \textbf{Input:} A[1...n] and non-negative integer c
+    \State \textbf{Output:} Merged array and count of inversions given A
+    \Procedure{Divide\_And\_Swap(A, c)}{}
+        \If {n = 2} 
+            \If {A[1] $>$ A[2]}
+                \State $Swap(A,1,2)$
+                 \State \textbf{return} A, c
+            \EndIf
+        \Else
+            \State m $\leftarrow$ n/2
+            \State $L, c \leftarrow Divide\_And\_Swap(A[1....m], c)$
+            \State $R, c \leftarrow Divide\_And\_Swap(A[m+1....n], c)$
+        \EndIf
+            \State Merged, inv\_count $\leftarrow Merge\_And\_Count(L,R)$
+            \State c $\leftarrow$ c + inv\_count
+        
+        \State \textbf{return} Merged, c
+    \EndProcedure
+    
+   \end{algorithmic}
+\end{algorithm}
+  \begin{algorithm}
+      \begin{algorithmic}[1]
+      
+    \State \textbf{Input:} A[1....n], with $n > 0$ and $n \% 2 = 0$
+    \State \textbf{Output:} The number of inversions
+    \Procedure{Get\_Min\_Inv(A)}{}
+        \State Merged, count $\leftarrow$ $Divide\_And\_Swap(A[1....n], 0)$
+        \State \textbf{return}  count
+    
+    \EndProcedure
+       \end{algorithmic}
+\end{algorithm}
+    \end{document} 
+    
