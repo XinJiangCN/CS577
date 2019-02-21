@@ -34,26 +34,78 @@
                     $$(1,3],(2,5],(2,5],(4,7],(4,7],(6,8] $$
                     Given those 6 time intervals, by the naive greedy alogrithm, we should pick (4,7], (4,7], (2,5], (2,5] at the first time, say we pick 4 lectures at the same time. Then we pick (1,3] for the second time, and finally, (6,8] for the last time. Total 3 visits. \\
                     However, if we go (1,3], (2,5] and (2,5] at the first time, with 3 lectures at the same time, and the next one we just go (4,7], (4,7] and (6,8] for the second time then we are done. Total is just 2 visits. 
-
+\\ 
+\\ 
+\\ 
+\\ 
+\\
+\\
+\\
+                    This algorithm has a complexity of $O(n log n)$. Two priority queue will take $2nlogn$time, and for the while loops, although there are two embeded while loops, each node is at most visited twice so the total time is $2n$. Then the overall time complexity is $O(nlogn$)
                 \item 
 
 
                     \begin{algorithm}
-                        \begin{algorithmic}
-                            \State \textbf{Input: }
-                            \State \textbf{Output: }
-                            \Procedure{Count\_Min\_Visit()}{}
-                                \State 
 
+                        \begin{algorithmic}
+                            \State \textbf{struct} invterval \textbf{contains}
+                            \State \textbf{        }int B;
+                            \State \textbf{        }int E;
+                            \State \textbf{        }bool isVisited;
+                            \State \textbf{end}
+                            \State
+                            \State \textbf{Input: } $B[B_1,...,B_n$ $E[E_1,...,E_n$ Two arrays of Begin and corresponding Ending time for each lectures with n $>$ 0
+                            \State \textbf{Output: } Number of minimum visits
+
+
+                            \Procedure{Count\_Min\_Visit()}{}
+                                \State interval\_list $\leftarrow \varnothing$
+                                \State Initialize Priority Queue pq\_end according to E by ascending order
+                                \State Initialize Priority Queue pq\_begin according to B by ascending order
+                                \State count $\leftarrow$ 0
+                                \For {$i=0$ to $n$}
+                                    \State new\_interval.B $\leftarrow B_i$
+                                    \State new\_interval.E $\leftarrow E_i$
+                                    \State new\_interval.isVisited $\leftarrow$ false
+                                    \State pq\_end.enque(new\_interval)
+                                    \State pq\_begin.enque(new\_interval)
+                                \EndFor
+                                \While {pq\_end.size $>$ 0}
+                                    \State interval\_1 $\leftarrow$ pq\_end.dequeue()
+                                    \If {interval\_1.isVisited = true}
+                                        \State continue
+                                    \EndIf
+                                    \While {pg\_end.size $>$ 0}
+                                        \State interval\_2$\leftarrow$ pq\_begin.peek()
+                                        \If {interval\_2.B $<$ interval\_1.E}
+                                            \State pq\_begin.dequeue()
+                                            \State Mark interval\_2.isVisited and corresponding node in pq\_end as true
+                                        \EndIf 
+                                    \EndWhile
+                                    \State count $\leftarrow$ count + 1
+                                \EndWhile
+                                \State \textbf{return} count
                             \EndProcedure
                         \end{algorithmic}
                     \end{algorithm}
 
-
-
-
-
+                \item 
+                    \textbf{Proof:}\\
+                     
+                Now we assume we have 2 algorithms, one greedy algorithm G as I mentioned before, and another valid algorithm V of calculating same visit times. \\
+                Say we denote k as the $k^{th}$ visit, $G_k$ is the total visit time after the $k^{th}$ visit by using greedy algorihm and $V_k$ for the total visit time for V. Also we denote $L_k$ as the number of lectures marked as visited during one visit. \\
+                \textbf{Claim: } $\forall k \geq 0 , \sum _ { i \in G _ { k } } L _ { i } \geq \sum _ { i \in V _ { k } } L_ { i }$
+                Say for any time, the Greedy algorithm will always better or equal the algorithm V. \\
+                \textbf{Base Case:} \\
+                Before the first visit, the number of lecture covered is both 0 for G and V. \\
+                \textbf{Induction:} \\   
+                Assume for the first to $k^{th}$ visit G and V covers the same number of visits. What we have to prove is that the G algorithm will cover no less lectures than the V algorithm in V. \\
+                \\
+                Then for the $k+1^{th}$ visit, the next lecture we want to cover is $(B_{k+1}, E_{k+1}]$. In the algorithm G, we should visit at the time $E_{k+1}$, yet in the algorithm V, the visit is made during $(B_{k+1}, E_{k+1})$. The V cannot make visit on $E_{k+1}$ since if so, G will equal to V. Then G will always pick equal number of lectures or even more lectures (if there are ovlaps during $E_{k+1})$ time. \\
+                \\
+                Thus, given the first k is the same, the whole G algorithm will return less or equal number of visits than the V algorithm. Hence the G algorihm is optimal.
             \end{itemize}
+
     \end{enumerate}
     \end{document} 
 
