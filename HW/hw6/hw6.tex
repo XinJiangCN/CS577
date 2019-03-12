@@ -1,0 +1,67 @@
+\documentclass{article}
+    \usepackage[margin = 1in]{geometry}
+    \usepackage{amsmath}
+    \usepackage{amssymb}
+    \usepackage{algorithm}
+    \usepackage{algorithmicx}
+    \usepackage[noend]{algpseudocode}
+    \usepackage{indentfirst}
+    \setlength{\parindent}{2em}
+    \author{CS 577\\Jason Jiang}
+    \title{Homework 6}
+
+    \topmargin = -100pt
+
+    \begin{document}
+    \maketitle
+    \begin{enumerate}
+            \begin{itemize}
+        \item   
+
+            For this problem, since there are transaction fees whenever you make USD to BDC or BDC to USD, and the transaction fees are fixed no matter how much is the transaction, we should always exchange all the currency we have to the targeted currency in one time. So, we will either have USD or BDC. Thus, for each state, the amount of currency we have is only depend on the day before the current day. \\
+
+            \begin{algorithm}
+
+                        \begin{algorithmic}
+                     
+                            \State \textbf{Input: } A[1,...,n] array representing the exchange rate between USD and BDC where $n > 0$. Transaction fees b and d, and initial dollar amount k. 
+                            \State \textbf{Output: } the maximum amout of dollar at the end of $n^{th}$ day. 
+
+
+                            \Procedure{Get\_Max\_Dollar(A[1...n], b, d, k)}{}
+                                \State USD $\leftarrow $ k
+                                \State BDC $\leftarrow$ 0
+                                \For {$i=1$ to $n$}
+                                    \State USD $\leftarrow $ $\max (USD, (BDC-b)*A[i])$
+                                    \State BDC $\leftarrow$ $\max (BDC, (USD-d)/A[i])$
+                                \EndFor
+                                \State \textbf{return} USD
+                            \EndProcedure
+                        \end{algorithmic}
+                    \end{algorithm}
+
+                \item 
+                    \textbf{Proof of Complexity:}\\
+                     At each step of the loop, each execuatation takes $O(1)$ time, so the overall complexity of the loop is $O(n)$. Hence the procedure has a time complexity of $O(n)$. 
+                     \\
+                     As mentioned, the current state denpends only on the last state, so it always need only 2 variables to store the results of calculation. So the space complexity is $O(1)$. \\
+
+                     \textbf{Proof of Correctness:}\\
+                     \textbf{   Claim: } The USD is the dollar we hold on the $i^{th}$ day and BDC is the Badger Coin we have on the $i^{th}$ day.\\
+                     \textbf{Base Case: } $n=1$\\
+                     The max function of the USD in the loop will always return the initial USD amount if $n=1$ since no matter how small the positive amount we exchange the USD to BDC it will always result in less USD amout. \\
+                     Since the inital BDC is 0, the max function will always pick 0 as 0 minus any positive number will result in a negtive number.\\
+                     Hence the return value of algorithm is correct when $n=1$. \\
+                    \textbf{Inductive Step: } \\
+                    Assume the program is correct until the $i^{th}$ day where USD is the currrent amount USD we have and BDC is the Badger Coin we have at that day. \\
+                    For the $i+1^{the}$ day: \\
+                    
+       
+
+
+
+            \end{itemize}
+
+    \end{enumerate}
+    \end{document} 
+
